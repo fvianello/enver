@@ -6,11 +6,6 @@
   This is an utility to have authentication data always ready when you're connecting to remote machines or doing something that requires a password.
   Saved informations will be encrypted and keept safe.
 
-## Requirements
-
-  - Node 0.6.x
-  - [commander.js](http://visionmedia.github.com/commander.js/) module    
-
 ## Installation
 
 Install enver using NPM
@@ -22,9 +17,10 @@ Install enver using NPM
 
 #Commands
 ###Import
-You can easily import a json file. This will not erase your previously inserted data, instead will extend it.
 
     $ enver import path/to/json
+
+You can easily import a json file. This will not erase your previously inserted data, accounts will merged.
 
 #####json example
 
@@ -39,14 +35,13 @@ You can easily import a json file. This will not erase your previously inserted 
 }
 ```
 
-The structure is completely flexible and it's up to you.
+The structure is completely flexible.
 
 ###Get
 
     $ enver get project-name.ssh.user
     
-Depending on your json structure.
-The retrieved key will be copied to your clipboard and won't be echoed.
+The retrieved key will be copied in your clipboard and won't be displayed.
 
 ###Delete
 
@@ -78,7 +73,7 @@ password
 
 ###Export
 
-    $ enver export file.json
+    $ enver export path/to/file.json
 
 This command exports the database in a clear json.
 If you want to format it you may use [jsonlint for node](https://github.com/zaach/jsonlint).
