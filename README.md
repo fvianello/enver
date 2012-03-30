@@ -13,10 +13,9 @@
 
 ## Installation
 
-Copy or clone the script inside your ~/bin directory.
-Install Commander module and initialize enver.
+Install enver using NPM
 
-    $ npm install commander
+    $ npm install -g enver
     $ enver init
 
 `init` creates the RSA keys that will be placed in ~/.enver
