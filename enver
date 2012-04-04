@@ -140,7 +140,7 @@ program
       });
     });
   });
-if (path.existsSync(enverDir)) {
+if (path.existsSync(enverDir) && path.existsSync(enverDir+'/db')) {
   readdb(function(db) {
     program
       .version('0.1.1')
@@ -169,9 +169,13 @@ if (path.existsSync(enverDir)) {
       .command('import [file]')
       .description('import a json file')
       .action(function(file) {
-        var jsonfile = JSON.parse(fs.readFileSync(file, "utf8"));
-        var newdb = extend(db,jsonfile);
-        savedb(newdb);
+        if (file && path.existsSync(file)) {
+          var jsonfile = JSON.parse(fs.readFileSync(file, "utf8"));
+          var newdb = extend(db,jsonfile);
+          savedb(newdb);
+        } else {
+          console.log('file not found');
+        }
       });
 
     program
@@ -200,6 +204,7 @@ if (path.existsSync(enverDir)) {
       .command('get [path]')
       .description('retrieve the key and copy it to clipboard')
       .action(function(path) {
+        if (path && path)
         var retrievedKey;
         try {
            retrievedKey = eval("db."+path);
@@ -219,7 +224,13 @@ if (path.existsSync(enverDir)) {
       .command('export [filepath]')
       .description('export the json database to file')
       .action(function(filepath) {
-        fs.writeFileSync(filepath, JSON.stringify(db), 'utf8');
+        if (filepath) {
+          fs.writeFile(filepath, JSON.stringify(db), function (err) {
+            if (err) console.log('directory not found');
+          });
+        } else {
+          console.log('insert the file path');
+        }
       });
 
     program.parse(process.argv);
@@ -230,5 +241,10 @@ if (path.existsSync(enverDir)) {
     }
   });
 } else {
+  program
+    .command('*')
+    .action(function() {
+      console.log('please run `enver init` to initialize enver')
+    });
   program.parse(process.argv);
 }
