@@ -16,6 +16,10 @@ function puts(error, stdout, stderr) { if (stderr) util.puts(stderr) }
 function pbcopy(string) {
   exec("printf \""+string.replace(/"/g,'\\"')+"\" | pbcopy", puts);
 }
+function execute(cmd, cb, dir) {
+  var execDir = dir || enverDir;
+  exec(cmd, { cwd: execDir }, cb);
+}
 
 function savedb(newdb) {
   // crypting
