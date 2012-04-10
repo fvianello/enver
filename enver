@@ -140,7 +140,7 @@ program
 if (path.existsSync(enverDir) && path.existsSync(enverDir+'/db')) {
   readdb(function(db) {
     program
-      .version('0.1.1')
+      .version('0.1.2')
       .option('-c, --cmdlist', 'output commands list')
 
     program
