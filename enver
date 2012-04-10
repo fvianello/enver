@@ -16,9 +16,6 @@ function puts(error, stdout, stderr) { if (stderr) util.puts(stderr) }
 function pbcopy(string) {
   exec("printf \""+string.replace(/"/g,'\\"')+"\" | pbcopy", puts);
 }
-function execute(cmd, cb) {
-  exec(cmd, { cwd: enverDir }, cb);
-}
 
 function savedb(newdb) {
   // crypting
@@ -140,18 +137,18 @@ program
       });
     });
   });
-if (path.existsSync(enverDir)) {
+if (path.existsSync(enverDir) && path.existsSync(enverDir+'/db')) {
   readdb(function(db) {
     program
-      .version('0.1.1')
+      .version('0.1.2')
       .option('-c, --cmdlist', 'output commands list')
 
     program
-      .command('add [path]')
+      .command('add [keypath]')
       .description('add a new object')
-      .action(function(path) {
+      .action(function(keypath) {
         program.password('Value: ', function(value) {
-          var splittedPath = path.split('.');
+          var splittedPath = keypath.split('.');
           var curPath = splittedPath[0];
           for (var i = 1; i <= splittedPath.length; i++) {
             if (!eval("db."+curPath)) {
@@ -159,7 +156,7 @@ if (path.existsSync(enverDir)) {
             }
             curPath += '.'+splittedPath[i];
           }
-          eval('db.'+path+' = value;');
+          eval('db.'+keypath+' = value;');
           process.stdin.destroy();
           savedb(db);
         });
@@ -169,17 +166,21 @@ if (path.existsSync(enverDir)) {
       .command('import [file]')
       .description('import a json file')
       .action(function(file) {
-        var jsonfile = JSON.parse(fs.readFileSync(file, "utf8"));
-        var newdb = extend(db,jsonfile);
-        savedb(newdb);
+        if (file && path.existsSync(file)) {
+          var jsonfile = JSON.parse(fs.readFileSync(file, "utf8"));
+          var newdb = extend(db,jsonfile);
+          savedb(newdb);
+        } else {
+          console.log('file not found');
+        }
       });
 
     program
-      .command('delete [path]')
+      .command('delete [keypath]')
       .description('delete the specified object')
-      .action(function(path) {
+      .action(function(keypath) {
         try {
-          eval(util.format("delete db.%s", path));
+          eval(util.format("delete db.%s", keypath));
           savedb(db);
         } catch(e) {
           console.log('path not found');
@@ -189,9 +190,9 @@ if (path.existsSync(enverDir)) {
     program
       .command('list [path]')
       .description('list all objects')
-      .action(function(path) {
+      .action(function(keypath) {
         if (path)
-          dump(eval("db."+path));
+          dump(eval("db."+keypath));
         else
           dump(db);
       });
@@ -199,27 +200,37 @@ if (path.existsSync(enverDir)) {
     program
       .command('get [path]')
       .description('retrieve the key and copy it to clipboard')
-      .action(function(path) {
-        var retrievedKey;
-        try {
-           retrievedKey = eval("db."+path);
-        } catch(e) { console.log('path not found'); return; }
-        if (retrievedKey) {
-          if (typeof retrievedKey == 'string') {
-            pbcopy(retrievedKey);
+      .action(function(keypath) {
+        if (keypath) {
+          var retrievedKey;
+          try {
+             retrievedKey = eval("db."+keypath);
+          } catch(e) { console.log('path not found'); return; }
+          if (retrievedKey) {
+            if (typeof retrievedKey == 'string') {
+              pbcopy(retrievedKey);
+            } else {
+              console.log('invalid path');
+            }
           } else {
-            console.log('invalid path');
-          }
+            console.log('key not found');
+          } 
         } else {
-          console.log('key not found');
-        } 
+          console.log('please insert an object path');
+        }
       });
 
     program
       .command('export [filepath]')
       .description('export the json database to file')
       .action(function(filepath) {
-        fs.writeFileSync(filepath, JSON.stringify(db), 'utf8');
+        if (filepath) {
+          fs.writeFile(filepath, JSON.stringify(db), function (err) {
+            if (err) console.log('directory not found');
+          });
+        } else {
+          console.log('insert the file path');
+        }
       });
 
     program.parse(process.argv);
@@ -230,5 +241,10 @@ if (path.existsSync(enverDir)) {
     }
   });
 } else {
+  program
+    .command('*')
+    .action(function() {
+      console.log('please run `enver init` to initialize enver')
+    });
   program.parse(process.argv);
 }
