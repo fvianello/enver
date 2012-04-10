@@ -1,10 +1,9 @@
 
 # Enver
 
-  Enver is a Node.js script that runs in your shell to easily manage your accounts informations.
-  With enver you can save your account informations in json format for fast access in the future.
-  This is an utility to have authentication data always ready when you're connecting to remote machines or doing something that requires a password.
-  Saved informations will be encrypted and keept safe.
+  Enver is shell utility written in Node.js to store your accounts informations.  
+  You can retrieve any information saved with one command, copied in your clipboard, and not displayed.  
+  Saved data will be encrypted.
 
 ## Installation
 
@@ -76,11 +75,11 @@ password
     $ enver export path/to/file.json
 
 This command exports the database in a clear json.
-If you want to format it you may use [jsonlint for node](https://github.com/zaach/jsonlint).
+If you want to format it you may want to use [jsonlint for node](https://github.com/zaach/jsonlint).
 
 ## Oh My Zsh! autocomplete plugin
 
-place "enver.plugin.zsh" inside your ~/.oh-my-zsh/plugins/ and activate it in your ~/.zshrc file to enable autocomplete for commands and object paths.
+copy `~/node_modules/enver/enver.plugin.zsh` inside your `~/.oh-my-zsh/plugins/` and activate it in your `~/.zshrc` file to enable autocomplete for commands and object paths.
 
 special thanks to [flevour](https://github.com/flevour)
 
