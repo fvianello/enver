@@ -109,6 +109,10 @@ function cmddump(obj, prefix) {
 
 function dump(obj, indent) {
   var indent = indent || '';
+  if (typeof obj == 'string') {
+    console.log('`list` command is used only to show the database tree, if you want to get a value use the `get` command.');
+    return false;
+  }
   for (subobj in obj) {
     if (typeof subobj == 'string')
       console.log(indent+subobj);
@@ -195,7 +199,7 @@ if (path.existsSync(enverDir) && path.existsSync(enverDir+'/db')) {
       .command('list [path]')
       .description('list all objects')
       .action(function(keypath) {
-        if (path)
+        if (keypath)
           dump(eval("db."+keypath));
         else
           dump(db);
