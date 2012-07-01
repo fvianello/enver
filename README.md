@@ -26,7 +26,7 @@ You can easily import a json file. This will not erase your previously inserted 
 
 ```js
 {
-    "project-name": {
+    "projectname": {
         "ssh": {
             "user": "foo",
             "password": "bar"
@@ -39,17 +39,17 @@ The structure is completely flexible.
 
 ###Get
 
-    $ enver get project-name.ssh.user
+    $ enver get projectname.ssh.user
     
 The retrieved key will be copied in your clipboard and won't be displayed.
 
 ###Delete
 
-    $ enver delete project-name.ssh.user
+    $ enver delete projectname.ssh.user
     
 ###Add
 
-    $ enver add new-project.db.user
+    $ enver add newproject.db.user
     
 After this command you will be prompted to insert the value of the object so it won't be present in your command history.
 
@@ -61,12 +61,12 @@ This command will show the complete, or partial depending on the presence of [pa
 
 ```bash
 $ enver list
-project-name
+projectname
 └ ssh
   └ user
   └ password
 
-$ enver list project-name.ssh
+$ enver list projectname.ssh
 user
 password
 ```
