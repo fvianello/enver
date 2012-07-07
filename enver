@@ -125,7 +125,7 @@ program
   .command('init [dir]')
   .description('initialize enver')
   .action(function(dir) {
-    path.exists(enverDir, function (exists) {
+    fs.exists(enverDir, function (exists) {
       if (!exists) {
         fs.mkdirSync(enverDir);
       }
@@ -134,7 +134,7 @@ program
         execute("openssl rsa -in id_rsa -out id_rsa.pub -outform PEM -pubout", function() {
           savedb({});
           console.log("enver initialized! type enver -h for help");
-          path.exists(userHome+'/.oh-my-zsh', function(exists) {
+          fs.exists(userHome+'/.oh-my-zsh', function(exists) {
             var readme = "https://github.com/fvianello/enver#readme";
             if (exists)
               console.log("Oh My ZSH found! You can activate autocomplete following the instructions here: "+readme);
