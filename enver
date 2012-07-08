@@ -125,7 +125,7 @@ program
   .command('init [dir]')
   .description('initialize enver')
   .action(function(dir) {
-    path.exists(enverDir, function (exists) {
+    fs.exists(enverDir, function (exists) {
       if (!exists) {
         fs.mkdirSync(enverDir);
       }
@@ -134,7 +134,7 @@ program
         execute("openssl rsa -in id_rsa -out id_rsa.pub -outform PEM -pubout", function() {
           savedb({});
           console.log("enver initialized! type enver -h for help");
-          path.exists(userHome+'/.oh-my-zsh', function(exists) {
+          fs.exists(userHome+'/.oh-my-zsh', function(exists) {
             var readme = "https://github.com/fvianello/enver#readme";
             if (exists)
               console.log("Oh My ZSH found! You can activate autocomplete following the instructions here: "+readme);
@@ -145,7 +145,7 @@ program
       });
     });
   });
-if (path.existsSync(enverDir) && path.existsSync(enverDir+'/db')) {
+if (fs.existsSync(enverDir) && fs.existsSync(enverDir+'/db')) {
   readdb(function(db) {
     program
       .version('0.1.3')
@@ -174,7 +174,7 @@ if (path.existsSync(enverDir) && path.existsSync(enverDir+'/db')) {
       .command('import [file]')
       .description('import a json file')
       .action(function(file) {
-        if (file && path.existsSync(file)) {
+        if (file && fs.existsSync(file)) {
           var jsonfile = JSON.parse(fs.readFileSync(file, "utf8"));
           var newdb = extend(db,jsonfile);
           savedb(newdb);
