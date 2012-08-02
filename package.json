@@ -1,7 +1,7 @@
 {
   "name": "enver",
   "preferGlobal": "true",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Flavio Vianello <fvianello@h-art.it>",
   "description": "easily manage your accounts informations",
   "contributors": [ 
@@ -23,11 +23,11 @@
     "pass"
   ],
   "dependencies" : {
-    "commander"   :  ">=0.5"
+    "commander"   :  "1.0.0"
   },
   "noAnalyze": true,
   "license": "MIT",
   "engine": {
-    "node": ">=0.6"
+    "node": "0.8.2"
   }
 }
