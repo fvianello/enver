@@ -144,14 +144,14 @@ program
 if (fs.existsSync(enverDir) && fs.existsSync(enverDir+'/db')) {
   readdb(function(db) {
     program
-      .version('0.1.5')
+      .version('0.1.6')
       .option('-c, --cmdlist', 'output commands list')
 
     program
       .command('add [keypath]')
       .description('add a new object')
       .action(function(keypath) {
-        program.password('Value: ', function(value) {
+        program.prompt('Value: ', function(value) {
           var splittedPath = keypath.split('.');
           var curPath = splittedPath[0];
           for (var i = 1; i <= splittedPath.length; i++) {
