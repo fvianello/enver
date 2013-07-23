@@ -1,13 +1,14 @@
 
 # Enver
 
-  Enver is shell utility written in Node.js to store your accounts informations.  
-  You can retrieve any information saved with one command, copied in your clipboard, and not displayed.  
-  Saved data will be encrypted.
+  Stop pasting your hosts credentials from emails or Skype chats.
+  Enver is a shell utility written in Node.js to store your accounts informations.
+  You can retrieve any information saved with one command, copied in your clipboard, and safely not displayed in your shell.
+  All saved data will be encrypted.
 
 ## Installation
 
-Install enver using NPM
+Install enver using NPM (Requires Node v0.8.x or newer)
 
     $ npm install -g enver
     $ enver init
