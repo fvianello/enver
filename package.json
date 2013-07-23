@@ -1,7 +1,7 @@
 {
   "name": "enver",
   "preferGlobal": "true",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "author": "Flavio Vianello <fvianello@h-art.it>",
   "description": "easily manage your accounts informations",
   "contributors": [ 

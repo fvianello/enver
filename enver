@@ -148,7 +148,7 @@ program
 if (fs.existsSync(enverDir) && fs.existsSync(enverDir+'/db')) {
   readdb(function(db) {
     program
-      .version('0.1.3')
+      .version('0.1.5')
       .option('-c, --cmdlist', 'output commands list')
 
     program
